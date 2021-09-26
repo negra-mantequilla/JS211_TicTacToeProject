@@ -8,12 +8,15 @@
 // next to each @TODO you will find tasks that need to be finished
 // 4. GET THIS GAME WORKING!!
 
-let currentMarker = 'X'
+
 let board = [
   ['','',''],
   ['','',''],
   ['','','']
 ];
+
+
+let currentMarker = 'X'
 
 // is called when a square is clicked. "this" = element here
 const handleClick = (element) => {
@@ -28,16 +31,26 @@ const handleClick = (element) => {
 
 const addMarker = (id) => {
   console.log(`We'll place a mark on square: ${id}`)
-  // @TODO, Mix & Match. 
-  // You will need the following pieces:
+  / // @TODO-1: Open the console tab in your Chrome Inspector Tool and click on the top-left square to see what's logged to the console. 
+  console.log(`*** The current marker is:  ${currentMarker}. ***`)
+  console.log(`Therefore, a  "${currentMarker}"  should be placed in the square with the id:  ${id}`)
   
-  // = currentMarker
-  // .getElementById(id)
-  // document
-  // .innerHTML 
+  const row = parseInt(id.charAt(0))
+  const column = parseInt(id.charAt(2))
+  console.log("This is row ", row, " This is a column ", column);
+  document.getElementById(id).innerHTML = currentMarker;
   
-  // Arrange the above pieces into a single line of code
-  // to add an X or O to the board to the DOM so it can be scene on the screen.
+
+  board[row][column] = currentMarker; 
+  checkForWin();
+}
+
+const changeMarker = () => {
+  if(currentMarker === "X"){
+    currentMarker = "O"
+  } else {
+    currentMarker = "X"
+  }
 }
 
 // passes the element's id attribute from HTML to be used
@@ -65,28 +78,87 @@ const checkForWin = () => {
 }
 
 const horizontalWin = () => {
-  // @TODO, Your code here: to check for horizontal wins
+  console.log("check for horizontal win")
+
+if((board[0][0] == "X" && board[0][1] == "X" && board[0][2] == "X") 
+|| (board[0][0] == "O" && board[0][1] == "O" && board[0][2] == "O"))
+{
+  console.log ('row 1')
+ return true 
+} 
+
+ 
+if((board[1][0] == "X" && board[1][1] == "X" && board[1][2] == "X") 
+|| (board[1][0] == "O" && board[1][1] == "O" && board[1][2] == "O")
+) {
+  console.log ('row 2')
+  return true 
+}
+
+if((board[2][0] == "X" && board[2][1] == "X" && board[2][2] == "X") 
+|| (board[2][0] == "O" && board[2][1] == "O" && board[2][2] == "O")
+) {
+  console.log ('row 3')
+  return true 
+}
 }
 
 const verticalWin = () => {
-  // @TODO, Your code here: to check for vertical wins
+  if((board[0][0] == "X" && board[1][0] == "X" && board[2][0] == "X") 
+|| (board[0][0] == "O" && board[1][0] == "O" && board[2][0] == "O")
+){
+console.log('verical row 1')
+return true 
+}
+
+if((board[0][1] == "X" && board[1][1] == "X" && board[2][1] == "X") 
+|| (board[0][1] == "O" && board[1][1] == "O" && board[2][1] == "O")
+) {
+console.log("vertical row 2")
+return true 
+}
+
+if((board[0][2] == "X" && board[1][2] == "X" && board[2][2] == "X") 
+|| (board[0][2] == "O" && board[1][2] == "O" && board[2][2] == "O")
+) {
+  console.log("vertical row 3")
+  return true 
+} 
 }
 
 const diagonalWin = () => {
-  // @TODO, Your code here: to check for diagonal wins
+  // Your code here to check for diagonal wins
+
+
+if((board[0][0] == "X" && board[1][1] == "X" && board[2][2] == "X") 
+|| (board[0][0] == "O" && board[1][1] == "O" && board[2][2] == "O")
+){
+return true
 }
 
-const changeMarker = () => {
-  // ternary operator: if it's an X make it an O, if O make it an X
-  currentMarker = currentMarker === "X" ? "O" : "X"
+if((board[2][0] == "X" && board[1][1] == "X" && board[0][2] == "X") 
+|| (board[2][0] == "O" && board[1][1] == "O" && board[0][2] == "O")
+){
+  return true
 }
+}
+ const checkforWin = () => {
+if(horizontalWin() || verticalWin() || diagonalWin()) {
+  console.log('win')
+  window.alert('Player ${currentMarker} won!')
+} else {
+  changeMarker()
+}
+
+ }
+
 
 const resetBoard = () => {
   // sanity check: this tells us the function is being called
   console.log("the board was cleared!")
 
   // collects all of the "td"s into an HTML Collection: https://www.w3schools.com/jsref/dom_obj_htmlcollection.asp  
-  const squares = document.getElementsByTagName("TD")
+  const squares = document.getElementsByTagName("td")
   
   // loops over the HTML Collections and clears out the Xs and Os
   for (i=0; i<squares.length; i++) {
